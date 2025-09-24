@@ -15,7 +15,10 @@
       "WebFetch(domain:www.brandcolorcode.com)",
       "Bash(git init:*)",
       "Bash(git remote add:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(dir)",
+      "Bash(dir:*)",
+      "Bash(del test_db.py setup_database.py)"
     ],
     "deny": [],
     "ask": []
