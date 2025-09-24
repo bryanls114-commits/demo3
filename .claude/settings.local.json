@@ -18,7 +18,10 @@
       "Bash(git add:*)",
       "Bash(dir)",
       "Bash(dir:*)",
-      "Bash(del test_db.py setup_database.py)"
+      "Bash(del test_db.py setup_database.py)",
+      "Bash(git config:*)",
+      "Bash(git push:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
