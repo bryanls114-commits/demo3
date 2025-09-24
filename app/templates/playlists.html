@@ -60,6 +60,9 @@
                                 <span class="saved-indicator" style="display:none;">
                                     <i class="fas fa-check text-success"></i>
                                 </span>
+                                <button type="button" class="btn btn-warning btn-sm edit-song" data-song-id="{{ song.song_id }}" data-bs-toggle="modal" data-bs-target="#editSongModal">
+                                    <i class="fas fa-edit"></i>
+                                </button>
                                 <button type="button" class="btn btn-danger btn-sm delete-song" data-song-id="{{ song.song_id }}">
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -121,6 +124,9 @@
                                 <span class="saved-indicator" style="display:none;">
                                     <i class="fas fa-check text-success"></i>
                                 </span>
+                                <button type="button" class="btn btn-warning btn-sm edit-playlist" data-playlist-id="{{ playlist.playlist_id }}" data-bs-toggle="modal" data-bs-target="#editPlaylistModal">
+                                    <i class="fas fa-edit"></i>
+                                </button>
                                 <button type="button" class="btn btn-danger btn-sm delete-playlist" data-playlist-id="{{ playlist.playlist_id }}">
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -230,6 +236,104 @@
     </div>
 </div>
 
+<!-- Edit Song Modal -->
+<div class="modal fade" id="editSongModal" tabindex="-1" aria-labelledby="editSongModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editSongModalLabel"><i class="fas fa-edit me-2"></i>Edit Song</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editSongForm">
+                <input type="hidden" id="editSongId" name="song_id">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="edit_title" class="form-label">Title *</label>
+                                <input type="text" class="form-control" id="edit_title" name="title" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit_artist" class="form-label">Artist *</label>
+                                <input type="text" class="form-control" id="edit_artist" name="artist" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit_album" class="form-label">Album</label>
+                                <input type="text" class="form-control" id="edit_album" name="album">
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit_duration" class="form-label">Duration (seconds)</label>
+                                <input type="number" class="form-control" id="edit_duration" name="duration">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="edit_genre" class="form-label">Genre</label>
+                                <input type="text" class="form-control" id="edit_genre" name="genre">
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit_release_year" class="form-label">Release Year</label>
+                                <input type="number" class="form-control" id="edit_release_year" name="release_year" min="1900" max="2100">
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit_spotify_id" class="form-label">Spotify ID</label>
+                                <input type="text" class="form-control" id="edit_spotify_id" name="spotify_id">
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit_youtube_url" class="form-label">YouTube URL</label>
+                                <input type="url" class="form-control" id="edit_youtube_url" name="youtube_url">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-warning">Update Song</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Playlist Modal -->
+<div class="modal fade" id="editPlaylistModal" tabindex="-1" aria-labelledby="editPlaylistModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPlaylistModalLabel"><i class="fas fa-edit me-2"></i>Edit Playlist</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editPlaylistForm">
+                <input type="hidden" id="editPlaylistId" name="playlist_id">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit_playlist_name" class="form-label">Playlist Name *</label>
+                        <input type="text" class="form-control" id="edit_playlist_name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_playlist_description" class="form-label">Description</label>
+                        <textarea class="form-control" id="edit_playlist_description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_playlist_created_by" class="form-label">Created By</label>
+                        <input type="text" class="form-control" id="edit_playlist_created_by" name="created_by">
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="edit_playlist_is_public" name="is_public">
+                        <label class="form-check-label" for="edit_playlist_is_public">
+                            Make playlist public
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-warning">Update Playlist</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- Toast notification for autosave feedback -->
 <div class="toast-container position-fixed top-0 end-0 p-3">
     <div id="autosave-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -258,6 +362,74 @@ $(document).ready(function() {
     });
 
     // ===== SONGS FUNCTIONALITY =====
+
+    // Edit song button functionality
+    $('.edit-song').on('click', function() {
+        const songId = $(this).data('song-id');
+        const $row = $(this).closest('tr');
+
+        // Get current values from the table row
+        const title = $row.find('[data-field="title"]').text().trim();
+        const artist = $row.find('[data-field="artist"]').text().trim();
+        const album = $row.find('[data-field="album"]').text().trim();
+        const duration = $row.find('[data-field="duration"]').text().trim();
+        const genre = $row.find('[data-field="genre"]').text().trim();
+        const releaseYear = $row.find('[data-field="release_year"]').text().trim();
+
+        // Populate the edit modal
+        $('#editSongId').val(songId);
+        $('#edit_title').val(title);
+        $('#edit_artist').val(artist);
+        $('#edit_album').val(album);
+        $('#edit_duration').val(duration);
+        $('#edit_genre').val(genre);
+        $('#edit_release_year').val(releaseYear);
+        $('#edit_spotify_id').val(''); // These fields aren't visible in table
+        $('#edit_youtube_url').val('');
+    });
+
+    // Edit song form submission
+    $('#editSongForm').on('submit', function(e) {
+        e.preventDefault();
+
+        const songId = $('#editSongId').val();
+        const formData = {
+            title: $('#edit_title').val(),
+            artist: $('#edit_artist').val(),
+            album: $('#edit_album').val(),
+            duration: $('#edit_duration').val(),
+            genre: $('#edit_genre').val(),
+            release_year: $('#edit_release_year').val(),
+            spotify_id: $('#edit_spotify_id').val(),
+            youtube_url: $('#edit_youtube_url').val()
+        };
+
+        // Update each field individually
+        const fields = ['title', 'artist', 'album', 'duration', 'genre', 'release_year'];
+        let updatePromises = [];
+
+        fields.forEach(field => {
+            updatePromises.push(
+                $.ajax({
+                    url: '/playlists/api/songs/' + songId,
+                    method: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        field: field,
+                        value: formData[field]
+                    })
+                })
+            );
+        });
+
+        Promise.all(updatePromises).then(() => {
+            $('#editSongModal').modal('hide');
+            location.reload(); // Reload to show updated song
+            showToast('Song updated successfully!');
+        }).catch(() => {
+            showToast('Error updating song', 'error');
+        });
+    });
 
     // Autosave functionality for songs
     $('#songs .editable').on('blur keyup', function(e) {
@@ -353,6 +525,64 @@ $(document).ready(function() {
     });
 
     // ===== PLAYLISTS FUNCTIONALITY =====
+
+    // Edit playlist button functionality
+    $('.edit-playlist').on('click', function() {
+        const playlistId = $(this).data('playlist-id');
+        const $row = $(this).closest('tr');
+
+        // Get current values from the table row
+        const name = $row.find('[data-field="name"]').text().trim();
+        const description = $row.find('[data-field="description"]').text().trim();
+        const createdBy = $row.find('[data-field="created_by"]').text().trim();
+        const isPublic = $row.find('.editable-checkbox').is(':checked');
+
+        // Populate the edit modal
+        $('#editPlaylistId').val(playlistId);
+        $('#edit_playlist_name').val(name);
+        $('#edit_playlist_description').val(description);
+        $('#edit_playlist_created_by').val(createdBy);
+        $('#edit_playlist_is_public').prop('checked', isPublic);
+    });
+
+    // Edit playlist form submission
+    $('#editPlaylistForm').on('submit', function(e) {
+        e.preventDefault();
+
+        const playlistId = $('#editPlaylistId').val();
+        const formData = {
+            name: $('#edit_playlist_name').val(),
+            description: $('#edit_playlist_description').val(),
+            created_by: $('#edit_playlist_created_by').val(),
+            is_public: $('#edit_playlist_is_public').is(':checked')
+        };
+
+        // Update each field individually
+        const fields = ['name', 'description', 'created_by', 'is_public'];
+        let updatePromises = [];
+
+        fields.forEach(field => {
+            updatePromises.push(
+                $.ajax({
+                    url: '/playlists/api/playlists/' + playlistId,
+                    method: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        field: field,
+                        value: formData[field]
+                    })
+                })
+            );
+        });
+
+        Promise.all(updatePromises).then(() => {
+            $('#editPlaylistModal').modal('hide');
+            location.reload(); // Reload to show updated playlist
+            showToast('Playlist updated successfully!');
+        }).catch(() => {
+            showToast('Error updating playlist', 'error');
+        });
+    });
 
     // Autosave functionality for playlists
     $('#playlists .editable').on('blur keyup', function(e) {
