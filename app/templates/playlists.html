@@ -334,6 +334,47 @@
     </div>
 </div>
 
+<!-- Delete Song Confirmation Modal -->
+<div class="modal fade" id="deleteSongModal" tabindex="-1" aria-labelledby="deleteSongModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteSongModalLabel"><i class="fas fa-exclamation-triangle me-2"></i>Confirm Delete Song</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this song?</p>
+                <p class="text-muted mb-0"><small>This action cannot be undone.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteSong">Delete Song</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Playlist Confirmation Modal -->
+<div class="modal fade" id="deletePlaylistModal" tabindex="-1" aria-labelledby="deletePlaylistModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deletePlaylistModalLabel"><i class="fas fa-exclamation-triangle me-2"></i>Confirm Delete Playlist</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this playlist?</p>
+                <p class="text-danger"><strong>Warning:</strong> This will also remove all songs from this playlist.</p>
+                <p class="text-muted mb-0"><small>This action cannot be undone.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeletePlaylist">Delete Playlist</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Toast notification for autosave feedback -->
 <div class="toast-container position-fixed top-0 end-0 p-3">
     <div id="autosave-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -472,22 +513,31 @@ $(document).ready(function() {
     });
 
     // Delete song functionality
+    let songToDelete = null;
     $('.delete-song').on('click', function() {
-        if (confirm('Are you sure you want to delete this song?')) {
-            const songId = $(this).data('song-id');
-            const $row = $(this).closest('tr');
+        songToDelete = $(this).data('song-id');
+        $('#deleteSongModal').modal('show');
+    });
+
+    $('#confirmDeleteSong').on('click', function() {
+        if (songToDelete) {
+            const $row = $('tr[data-song-id="' + songToDelete + '"]');
 
             $.ajax({
-                url: '/playlists/api/songs/' + songId,
+                url: '/playlists/api/songs/' + songToDelete,
                 method: 'DELETE',
                 success: function(response) {
+                    $('#deleteSongModal').modal('hide');
                     $row.fadeOut(300, function() {
                         $(this).remove();
                     });
                     showToast('Song deleted successfully!');
+                    songToDelete = null;
                 },
                 error: function() {
+                    $('#deleteSongModal').modal('hide');
                     showToast('Error deleting song', 'error');
+                    songToDelete = null;
                 }
             });
         }
@@ -663,22 +713,31 @@ $(document).ready(function() {
     });
 
     // Delete playlist functionality
+    let playlistToDelete = null;
     $('.delete-playlist').on('click', function() {
-        if (confirm('Are you sure you want to delete this playlist? This will also remove all songs from this playlist.')) {
-            const playlistId = $(this).data('playlist-id');
-            const $row = $(this).closest('tr');
+        playlistToDelete = $(this).data('playlist-id');
+        $('#deletePlaylistModal').modal('show');
+    });
+
+    $('#confirmDeletePlaylist').on('click', function() {
+        if (playlistToDelete) {
+            const $row = $('tr[data-playlist-id="' + playlistToDelete + '"]');
 
             $.ajax({
-                url: '/playlists/api/playlists/' + playlistId,
+                url: '/playlists/api/playlists/' + playlistToDelete,
                 method: 'DELETE',
                 success: function(response) {
+                    $('#deletePlaylistModal').modal('hide');
                     $row.fadeOut(300, function() {
                         $(this).remove();
                     });
                     showToast('Playlist deleted successfully!');
+                    playlistToDelete = null;
                 },
                 error: function() {
+                    $('#deletePlaylistModal').modal('hide');
                     showToast('Error deleting playlist', 'error');
+                    playlistToDelete = null;
                 }
             });
         }
